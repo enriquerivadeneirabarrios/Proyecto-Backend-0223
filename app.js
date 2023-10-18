@@ -15,13 +15,8 @@ const indexRouter = require('./routers/index')
 
 app.use('/index', indexRouter)
 
-/*
-const {connect} = require('./db-t3/connect')
-const userRouter = require('./routers-t2/usuarios-t4')
 
-app.use('/v1', apiRouter)           //las apis generalmente se versionan, por eso v1*/
-
-
+const {connect} = require('./db/connect')
 connect()
 
 module.exports = app

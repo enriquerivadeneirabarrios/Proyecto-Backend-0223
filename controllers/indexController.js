@@ -23,7 +23,7 @@ class IndexController {
             res.status(401).json(error)
 
         }  
-        res.status(200).json(req.body) //los objetos que se reciben se envian por body. es un canal de despacho de informacion desde el front o desde la api
+        //res.status(200).json(req.body) //los objetos que se reciben se envian por body. es un canal de despacho de informacion desde el front o desde la api
     
     }
 

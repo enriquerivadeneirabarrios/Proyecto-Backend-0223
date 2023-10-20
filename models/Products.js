@@ -17,6 +17,11 @@ const schema = new Schema({
         type: Number,
         required: true
     },
+    disponible:{
+        type: Boolean,
+        default: true,
+        required: true
+    },
     descripcion:{
         type: String,
     },

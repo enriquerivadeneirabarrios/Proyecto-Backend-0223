@@ -13,25 +13,40 @@ class IndexController {
     } 
 
     async postProduct (req,res) {
+        const newProduct = new Products(req.body);
+        const existingProduct = await Products.findOne({nombre:newProduct.nombre});
 
-        try{
-            const newProduct = new Products(req.body);//el canal por donde se pasa la info. la info se incluye si y solo si esta en el formato del esquema. si no, tira error
+        if (existingProduct == null){
             await newProduct.save();
             res.status(201).json(newProduct)
 
-        } catch (error){
-            res.status(401).json(error)
+        }
 
-        }  
-        //res.status(200).json(req.body) //los objetos que se reciben se envian por body. es un canal de despacho de informacion desde el front o desde la api
-    
+        else{
+            res.status(401).send('El producto ya existe en la base de datos')       
+        }
+
+        }        
+      
+
+     async updateProduct (req,res) {    //metodo patch
+
+        const updatingProduct = new Products(req.body);
+        const existingProduct = await Products.findOne({nombre:updatingProduct.nombre});
+
+        if (existingProduct == null){
+            res.status(401).send('El producto no existe en la base de datos')   
+        }
+
+        else {
+            await existingProduct.deleteOne();
+            await updatingProduct.save();
+            res.status(201).json(updatingProduct);
+        }
+
     }
 
     put (req,res) {
-
-    }
-
-    patch (req,res) {
 
     }
 

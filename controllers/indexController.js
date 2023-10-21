@@ -50,10 +50,19 @@ class IndexController {
 
     }
 
-    delete (req,res) {      //metodo delete
-        const data = new Products(req.body);
-        const deletingProduct = Products.findOneAndDelete({nombre:data.nombre});
+    async delete (req,res) {      //metodo delete
+        const data = req.body;
+        const deletingProduct = Products.findOne({nombre:data.nombre});
         
+        if (deletingProduct == null){
+            res.status(401).send('Error: El producto no existe en la base de datos')   
+        }
+
+        else {
+            await deletingProduct.deleteOne();
+            res.status(201).send('Producto removido con exito');
+        }
+
 
 
     }

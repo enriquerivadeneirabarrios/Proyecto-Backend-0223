@@ -50,7 +50,11 @@ class IndexController {
 
     }
 
-    delete (req,res) {
+    delete (req,res) {      //metodo delete
+        const data = new Products(req.body);
+        const deletingProduct = Products.findOneAndDelete({nombre:data.nombre});
+        
+
 
     }
 }

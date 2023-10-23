@@ -31,6 +31,15 @@ class IndexController {
 
      async updateProduct (req,res) {    //metodo patch
 
+        /*const modificar = async()=> {
+            const doc = await Products.findOne({nombre:req.body.nombre});
+            const output = await doc.updateOne({req.body});
+            console.log(output);
+            res.json(doc)};
+
+        modificar();
+        }*/
+
         const updatingProduct = new Products(req.body);
         const existingProduct = await Products.findOne({nombre:updatingProduct.nombre});
 
@@ -45,6 +54,23 @@ class IndexController {
         }
 
     }
+
+    async removeProduct (req,res){
+
+        const remove = async() => {
+            const doc = await Products.findOne({nombre: req.body.nombre});
+            const output = await doc.updateOne({disponible:false});
+            console.log(output);
+            res.send('Producto removido')}
+        remove();
+        }
+
+        /*
+        const doc = await Products.findOne({nombre: req.body.nombre});
+        doc.updateOne({disponible: false})
+        res.status(500).send('Producto removido')
+
+    }*/
 
     put (req,res) {
 

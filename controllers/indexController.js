@@ -55,6 +55,32 @@ class IndexController {
 
     }
 
+    async updateQuantity (req,res) {    //metodo patch
+
+        const modificar = async()=> {
+            const doc = await Products.findOne({nombre:req.body.nombre});
+            const output = await doc.updateOne({stock: req.body.stock});
+            console.log(output);
+            res.send('Producto modificado')}
+
+        modificar();
+    }
+
+        /*const updatingProduct = new Products(req.body);
+        const existingProduct = await Products.findOne({nombre:updatingProduct.nombre});
+
+        if (existingProduct == null){
+            res.status(401).send('El producto no existe en la base de datos')   
+        }
+
+        else {
+            await existingProduct.deleteOne();
+            await updatingProduct.save();
+            res.status(201).json(updatingProduct);
+        }
+
+    }*/
+
     async removeProduct (req,res){
 
         const remove = async() => {

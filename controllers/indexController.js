@@ -57,13 +57,25 @@ class IndexController {
 
     async updateQuantity (req,res) {    //metodo patch
 
-        const modificar = async()=> {
-            const doc = await Products.findOne({nombre:req.body.nombre});
-            const output = await doc.updateOne({stock: req.body.stock});
-            console.log(output);
-            res.send('Producto modificado')}
 
-        modificar();
+        const doc = await Products.findOne({nombre: req.body.nombre});
+        if (doc == null){
+            res.send('error')
+        }
+        else if (doc.stock === req.body.stock){
+            res.send('Error: El stock ingresado coincide con el registrado. Producto sin modificar')
+        }
+        else{
+
+            const output = await doc.updateOne({stock: req.body.stock});
+            
+            console.log(output);
+            res.send('Producto modificado')
+
+        }
+
+
+
     }
 
         /*const updatingProduct = new Products(req.body);
@@ -83,12 +95,12 @@ class IndexController {
 
     async removeProduct (req,res){
 
-        const remove = async() => {
+
             const doc = await Products.findOne({nombre: req.body.nombre});
             const output = await doc.updateOne({disponible:false});
             console.log(output);
-            res.send('Producto removido')}
-        remove();
+            res.send('Producto removido')
+
         }
 
         /*

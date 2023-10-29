@@ -14,7 +14,7 @@ class IndexController {
 
     async postProduct (req,res) {
         const newProduct = new Products(req.body);
-        const existingProduct = await Products.findOne({nombre:newProduct.nombre});
+       /* const existingProduct = await Products.findOne({nombre:newProduct.nombre});
 
         if (existingProduct == null){
             await newProduct.save();
@@ -24,21 +24,17 @@ class IndexController {
 
         else{
             res.status(401).send('El producto ya existe en la base de datos')       
-        }
+        }*/
+
+        await newProduct.save();
+            res.status(201).json(newProduct)
+
 
         }        
       
 
      async updateProduct (req,res) {    //metodo patch
 
-        /*const modificar = async()=> {
-            const doc = await Products.findOne({nombre:req.body.nombre});
-            const output = await doc.updateOne({req.body});
-            console.log(output);
-            res.json(doc)};
-
-        modificar();
-        }*/
 
         const updatingProduct = new Products(req.body);
         const existingProduct = await Products.findOne({nombre:updatingProduct.nombre});
@@ -66,7 +62,6 @@ class IndexController {
             res.send('Error: El stock ingresado coincide con el registrado. Producto sin modificar')
         }
         else{
-
             const output = await doc.updateOne({stock: req.body.stock});
             
             console.log(output);

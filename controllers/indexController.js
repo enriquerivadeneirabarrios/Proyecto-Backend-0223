@@ -1,6 +1,8 @@
 const {Products} = require('../models/Products')
+const axios = require('axios');
 
 class IndexController {
+
     info (req,res) {
         res.status(400).send('Esto es una api')
 
@@ -125,6 +127,57 @@ class IndexController {
 
 
     }
+
+    async availableCurrencies (req,res) {
+
+
+        const options = {
+            method: 'GET',
+            url: 'https://currency-converter5.p.rapidapi.com/currency/list',
+            headers: {
+                'X-RapidAPI-Key': 'c3c6fa30e6msh129093a868aed62p18a249jsn30ee0be9ee97',
+                'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await axios.request(options);
+            res.status(200).json(response.data);
+        } catch (error) {
+            res.send(error);
+        }
+    }
+
+
+    async fromCLPTo (req,res) {
+
+        const data = req.body;      //tiene que tener el nombre del producto y la moneda a la que cambiar (moneda)
+        const product = await Products.findOne({nombre:data.nombre})
+        
+
+        const options = {
+          method: 'GET',
+          url: 'https://currency-converter5.p.rapidapi.com/currency/convert',
+          params: {
+            format: 'json',
+            from: 'CLP',
+            to: data.moneda ,
+            amount: product.precio
+          },
+          headers: {
+            'X-RapidAPI-Key': 'c3c6fa30e6msh129093a868aed62p18a249jsn30ee0be9ee97',
+            'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
+          }
+        };
+        
+        try {
+
+            const response = await axios.request(options);
+            res.status(200).json(response.data);
+        } catch (error) {
+            res.send(error);
+        }
+    }
 }
 
-module.exports = new IndexController
+    module.exports = new IndexController

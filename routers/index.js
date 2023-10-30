@@ -28,4 +28,15 @@ router.patch('/editarstock',
 router.delete('/borrarproducto', IndexController.delete )
 router.delete('/removerproducto', IndexController.removeProduct)
 
+router.get('/monedasdisponibles', IndexController.availableCurrencies)
+
+router.get('/cambiarmoneda',
+ [
+    check("nombre","El nombre es obligatorio").not().isEmpty(), 
+    check("moneda","La moneda es obligatoria").not().isEmpty(), 
+    check('nombre').custom(Validators.productoExiste),
+    Validators.validarCampos
+]
+, IndexController.fromCLPTo)
+
 module.exports = router

@@ -12,11 +12,33 @@ class Validators {
     }
 
     async productoExiste (nombre) {
-        const producto = await await Products.findOne({nombre});
+        const producto = await Products.findOne({nombre});
         if (producto){
             throw new Error("El producto ya existe en la base de datos")
         }
     }
+
+    async productoNoExiste (nombre) {
+        const producto = await Products.findOne({nombre});
+        if (!producto){
+            throw new Error("El producto no existe en la base de datos")
+        }
+    }
+
+    async productoRemovido (nombre) {
+        const producto =await Products.findOne({nombre});
+        if (!producto.disponible) {
+            throw new Error("El producto no está disponible")
+        }
+    }
+
+    async productoDisponible (nombre) {
+        const producto =await Products.findOne({nombre});
+        if (producto.disponible) {
+            throw new Error("El producto está disponible")
+        }
+    }
+
 
 }
 

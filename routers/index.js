@@ -8,13 +8,18 @@ router.get('/info', IndexController.info )
 
 
 router.get('/listadeproductos',IndexController.getProducts )
+router.get('/listacompletadeproductos',IndexController.getAllProducts )
 
 router.post('/agregarproducto',[
     check('nombre').custom(Validators.productoExiste),
     Validators.validarCampos
 ],IndexController.postProduct )
 
-router.patch('/editarproducto', IndexController.updateProduct )
+router.patch('/editarproducto',[
+    check('nombre').custom(Validators.productoExiste),
+    check('nombre').custom(Validators.productoRemovido),
+    Validators.validarCampos
+] ,IndexController.updateProduct )
 
 router.patch('/editarstock',
 [
@@ -25,8 +30,20 @@ router.patch('/editarstock',
 ]
 ,IndexController.updateQuantity)
 
-router.delete('/borrarproducto', IndexController.delete )
-router.delete('/removerproducto', IndexController.removeProduct)
+router.delete('/borrarproducto',[
+    check('nombre').custom(Validators.productoNoExiste),
+    Validators.validarCampos
+] ,IndexController.delete )
+
+router.delete('/removerproducto',[
+    check('nombre').custom(Validators.productoNoExiste),
+    Validators.validarCampos
+]  ,IndexController.removeProduct)
+
+router.patch('/reactivarproducto',[
+    check('nombre').custom(Validators.productoDisponible),
+    Validators.validarCampos
+], IndexController.reactivateProduct)
 
 router.get('/monedasdisponibles', IndexController.availableCurrencies)
 
@@ -34,7 +51,8 @@ router.get('/cambiarmoneda',
  [
     check("nombre","El nombre es obligatorio").not().isEmpty(), 
     check("moneda","La moneda es obligatoria").not().isEmpty(), 
-    check('nombre').custom(Validators.productoExiste),
+    check('nombre').custom(Validators.productoNoExiste),
+    check('nombre').custom(Validators.productoRemovido),
     Validators.validarCampos
 ]
 , IndexController.fromCLPTo)

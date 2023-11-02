@@ -1,5 +1,6 @@
 const {Products} = require('../models/Products')
 const axios = require('axios');
+require('dotenv').config
 
 class IndexController {
 
@@ -105,10 +106,10 @@ class IndexController {
 
         const options = {
             method: 'GET',
-            url: 'https://currency-converter5.p.rapidapi.com/currency/list',
-            headers: {
-                'X-RapidAPI-Key': 'c3c6fa30e6msh129093a868aed62p18a249jsn30ee0be9ee97',
-                'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
+            url: process.env.URL_CURRENCIES,
+            headers:{
+                'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+                'X-RapidAPI-Host': process.env.RAPIDAPI_HOST
             }
         };
 
@@ -129,17 +130,17 @@ class IndexController {
 
         const options = {
           method: 'GET',
-          url: 'https://currency-converter5.p.rapidapi.com/currency/convert',
+          url: process.env.URL_CONVERTER,
           params: {
             format: 'json',
             from: 'CLP',
             to: data.moneda ,
             amount: product.precio
           },
-          headers: {
-            'X-RapidAPI-Key': 'c3c6fa30e6msh129093a868aed62p18a249jsn30ee0be9ee97',
-            'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
-          }
+          headers:{
+            'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+            'X-RapidAPI-Host': process.env.RAPIDAPI_HOST
+        }
         };
         
         try {
